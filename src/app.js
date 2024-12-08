@@ -10,6 +10,10 @@ const app = express();
 app.use(express.json());
 app.use("/api", apiRoutes);
 
+app.get("/", (req, res) => {
+  return res.status(200).send("Namaste");
+});
+
 // Initialize the data when the server starts
 const initializeData = async () => {
   try {
