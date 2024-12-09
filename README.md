@@ -75,7 +75,9 @@ The application includes basic error handling for:
 
 • Missing query parameters.
 ```
-{ "error": "Missing required query parameters: filterKey or sortKey" }
+{
+    "error": "Missing filterKey. Both filterKey and filterValue are required for filtering."
+}
 ```
 • Invalid filter or sort keys.
 ```
