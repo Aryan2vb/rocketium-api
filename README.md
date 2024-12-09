@@ -25,13 +25,14 @@ To get started, clone this repository to your local machine:
 ```bash
 git clone https://github.com/Aryan2vb/rocketium-api
 cd nodejs-dummy-json-api
+```
 
 2. Install Dependencies
 
 Ensure you have Node.js installed. Then, run the following command to install the required dependencies:
-
+```
 npm install
-
+```
 3. Set Up the Application
 
 Set up the application to run locally. Create a .env file if needed, and configure any required environment variables (e.g., for a database or external API).
@@ -39,15 +40,15 @@ Set up the application to run locally. Create a .env file if needed, and configu
 4. Running the Application Locally
 
 Start the application locally using:
-
+```
 npm run dev
-
+```
 The server will start at http://localhost:3000. Use this URL to access the API.
 
 API Endpoints
-
+```
 GET /api/data
-
+```
 Retrieves the stored dummy JSON data from the server.
 
 Query Parameters:
@@ -57,17 +58,17 @@ Query Parameters:
 Example Requests
 
 Get All Data
-
+```
 curl http://localhost:3000/api/data
-
+```
 Get Filtered Data (e.g., filter by language)
-
+```
 curl http://localhost:3000/api/data?filter=language:Sindhi
-
+```
 Get Sorted Data (e.g., sort by name)
-
+```
 curl http://localhost:3000/api/data?sort=name
-
+```
 Error Handling
 
 The application includes basic error handling for:
