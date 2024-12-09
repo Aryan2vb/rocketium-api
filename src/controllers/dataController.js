@@ -1,4 +1,3 @@
-// src/controllers/dataController.js
 const fs = require("fs");
 const { DATA_FILE } = require("../config");
 
