@@ -1,37 +1,51 @@
 const fs = require("fs");
+const path = require("path");
 const { DATA_FILE } = require("../config");
 
 const getData = (req, res) => {
   try {
+    // Check if the data file exists
     if (!fs.existsSync(DATA_FILE)) {
       return res.status(500).json({ error: "Data file not found." });
     }
 
+    // Read the data file
     const rawData = fs.readFileSync(DATA_FILE, "utf-8");
     let data = [];
 
+    // Parse the JSON data
     try {
       data = JSON.parse(rawData);
     } catch (err) {
-      return res
-          .status(500)
-          .json({ error: "Error parsing JSON data", details: err.message });
+      return res.status(500).json({
+        error: "Error parsing JSON data",
+        details: err.message,
+      });
     }
 
-    const { filterKey, filterValue, sortKey, sortOrder } = req.query;
+    // Destructure query parameters
+    const { filterKey, filterValue, sortKey, sortOrder = "asc" } = req.query;
 
+    // Validate and apply filtering
     if (filterKey && filterValue) {
-      if (!['name', 'language', 'id', 'bio', 'version'].includes(filterKey)) {
-        return res.status(400).json({ error: `Invalid filter key: ${filterKey}` });
+      const validKeys = ["name", "language", "id", "bio", "version"];
+      if (!validKeys.includes(filterKey)) {
+        return res
+          .status(400)
+          .json({ error: `Invalid filter key: ${filterKey}` });
       }
 
-      data = data.filter((item) => String(item[filterKey]).toLowerCase() === filterValue.toLowerCase());
+      data = data.filter(
+        (item) =>
+          String(item[filterKey]).toLowerCase() ===
+          String(filterValue).toLowerCase()
+      );
     }
 
-    // Apply sorting based on the provided sort key and order (ascending or descending)
+    // Validate and apply sorting
     if (sortKey) {
-      // Ensure sortKey is valid
-      if (!['name', 'language', 'id', 'bio', 'version'].includes(sortKey)) {
+      const validKeys = ["name", "language", "id", "bio", "version"];
+      if (!validKeys.includes(sortKey)) {
         return res.status(400).json({ error: `Invalid sort key: ${sortKey}` });
       }
 
@@ -39,30 +53,32 @@ const getData = (req, res) => {
         const valA = a[sortKey];
         const valB = b[sortKey];
 
-        // Handle numerical sorting (for version)
+        // Handle numerical sorting
         if (typeof valA === "number" && typeof valB === "number") {
           return sortOrder === "desc" ? valB - valA : valA - valB;
         }
 
-        // Handle string sorting (for name, language, etc.)
+        // Handle string sorting
         if (typeof valA === "string" && typeof valB === "string") {
           return sortOrder === "desc"
-              ? valB.localeCompare(valA)
-              : valA.localeCompare(valB);
+            ? valB.localeCompare(valA)
+            : valA.localeCompare(valB);
         }
 
-        // Default case if types are different (or undefined)
+        // Default case for mixed or undefined types
         return 0;
       });
     }
 
-    // Return filtered and sorted data
-    res.json(data);
+    // Respond with the filtered and sorted data
+    res.status(200).json(data);
   } catch (error) {
-    console.error("Error reading data:", error.message);
-    res
-        .status(500)
-        .json({ error: "Error reading data", details: error.message });
+    // Log the error and send a server error response
+    console.error("Error handling request:", error.message);
+    res.status(500).json({
+      error: "An unexpected error occurred",
+      details: error.message,
+    });
   }
 };
 
