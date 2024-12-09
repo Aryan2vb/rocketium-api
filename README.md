@@ -61,18 +61,21 @@ Get All Data
 ```
 curl http://localhost:3000/api/data
 ```
-Get Filtered Data (e.g., filter by language)
+Get Filtered Data (e.g., filter by language):
 ```
-curl http://localhost:3000/api/data?filter=language:Sindhi
+curl http://localhost:3000/api/data?filterKey=language&filterValue=Sindhi
 ```
-Get Sorted Data (e.g., sort by name)
+Get Sorted Data (e.g., sort by name in ascending order):
 ```
-curl http://localhost:3000/api/data?sort=name
+curl http://localhost:3000/api/data?sortKey=name&sortOrder=asc
 ```
 Error Handling
 
 The application includes basic error handling for:
 	•	Missing query parameters.
+```
+{ "error": "Missing required query parameters: filterKey or sortKey" }
+```
 	•	Invalid filter or sort keys.
 	•	General server errors.
 
