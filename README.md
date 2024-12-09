@@ -1,7 +1,11 @@
 # Node.js API with Dummy JSON Data
 
-This project demonstrates a simple Node.js API application that fetches dummy JSON data, stores it on the server, and provides basic functionality like filtering and sorting the data. The application is deployed on **Vercel**.
+This project demonstrates a simple Node.js API application that fetches dummy JSON data, stores it on the server, and provides basic functionality like filtering and sorting the data. The application is deployed on **Onrender**.
 
+check out in POSTMAN
+```
+https://www.postman.com/flight-explorer-31357144/rocketium/collection/cjnczgt/rocketium?action=share&creator=33683745
+```
 ## Features
 - Fetches dummy JSON data from an external source.
 - Stores the data on the server.
