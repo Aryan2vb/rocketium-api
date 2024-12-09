@@ -19,7 +19,8 @@ Project Setup
 
 To get started, clone this repository to your local machine:
 
-git clone https://github.com/yourusername/nodejs-dummy-json-api.git
+git clone https://github.com/Aryan2vb/rocketium-api
+
 cd nodejs-dummy-json-api
 
 2. Install Dependencies
