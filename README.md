@@ -72,12 +72,19 @@ curl http://localhost:3000/api/data?sortKey=name&sortOrder=asc
 Error Handling
 
 The application includes basic error handling for:
-	•	Missing query parameters.
+
+• Missing query parameters.
 ```
 { "error": "Missing required query parameters: filterKey or sortKey" }
 ```
-	•	Invalid filter or sort keys.
-	•	General server errors.
+• Invalid filter or sort keys.
+```
+{ "error": "Invalid filter key: invalidKey" }
+or
+{ "error": "Invalid sort key: invalidSortKey" }
 
+```
+	
+	
 
 
