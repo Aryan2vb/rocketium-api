@@ -1,4 +1,3 @@
 node_modules/
-/src/data/dummyData.json
 .env
 .vercel
