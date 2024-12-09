@@ -27,14 +27,18 @@ const getData = (req, res) => {
     const { filterKey, filterValue, sortKey, sortOrder = "asc" } = req.query;
 
     // Validate and apply filtering
+    if (filterValue && !filterKey) {
+      return res.status(400).json({
+        error: "Missing filterKey. Both filterKey and filterValue are required for filtering.",
+      });
+    }
+    
     if (filterKey && filterValue) {
       const validKeys = ["name", "language", "id", "bio", "version"];
       if (!validKeys.includes(filterKey)) {
-        return res
-          .status(400)
-          .json({ error: `Invalid filter key: ${filterKey}` });
+        return res.status(400).json({ error: `Invalid filter key: ${filterKey}` });
       }
-
+    
       data = data.filter(
         (item) =>
           String(item[filterKey]).toLowerCase() ===
