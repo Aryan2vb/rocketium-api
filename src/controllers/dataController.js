@@ -47,32 +47,34 @@ const getData = (req, res) => {
     }
 
     // Validate and apply sorting
-    if (sortKey) {
-      const validKeys = ["name", "language", "id", "bio", "version"];
-      if (!validKeys.includes(sortKey)) {
-        return res.status(400).json({ error: `Invalid sort key: ${sortKey}` });
-      }
 
-      data.sort((a, b) => {
-        const valA = a[sortKey];
-        const valB = b[sortKey];
-
-        // Handle numerical sorting
-        if (typeof valA === "number" && typeof valB === "number") {
-          return sortOrder === "desc" ? valB - valA : valA - valB;
-        }
-
-        // Handle string sorting
-        if (typeof valA === "string" && typeof valB === "string") {
-          return sortOrder === "desc"
-            ? valB.localeCompare(valA)
-            : valA.localeCompare(valB);
-        }
-
-        // Default case for mixed or undefined types
-        return 0;
-      });
+  if (sortKey) {
+    const validKeys = ["name", "language", "id", "bio", "version"];
+    if (!validKeys.includes(sortKey)) {
+      return res.status(400).json({ error: `Invalid sort key: ${sortKey}` });
     }
+  
+    if (!["asc", "desc"].includes(sortOrder)) {
+      return res.status(400).json({ error: `Invalid sort order: ${sortOrder}. Use 'asc' or 'desc'.` });
+    }
+  
+    data.sort((a, b) => {
+      const valA = a[sortKey];
+      const valB = b[sortKey];
+  
+      if (typeof valA === "number" && typeof valB === "number") {
+        return sortOrder === "desc" ? valB - valA : valA - valB;
+      }
+  
+      if (typeof valA === "string" && typeof valB === "string") {
+        return sortOrder === "desc"
+          ? valB.localeCompare(valA)
+          : valA.localeCompare(valB);
+      }
+  
+      return 0; // Default case if types are different or undefined
+    });
+  }
 
     // Respond with the filtered and sorted data
     res.status(200).json(data);
